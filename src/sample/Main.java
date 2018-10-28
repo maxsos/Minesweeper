@@ -16,9 +16,9 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public int getClickedLeft() {
+/*    public int getClickedLeft() {
         if (!isOpen) {
-            if (this.isMarked) {
+            if (this.isFlag) {
                 this.isOpen = true;
 
                 if (this.state == -1) {
@@ -36,10 +36,11 @@ public class Main extends Application {
 
     public int getClickedRight() {
         if (!isOpen) {
-            this.isMarked = !this.isMarked;
+            this.isFlag = !this.isFlag;
         }
         return 0;
     }
+    */
     public static void main(String[] args) {
         launch(args);
     }
