@@ -3,27 +3,19 @@ package sample;
 import javafx.scene.control.Button;
 
 public class Cell extends Button {
-    Button button;
-    private boolean isBomb;
-    private boolean isOpen;
-    private boolean isFlag;
+    private int x;//- координата клетки по x
+    private int y;// - координата клетки по y
+    private int state;//-2 - взорванная бомба, -1 - бомба, 0..8 - количество бомб в соседних клетках
+    private Button button;
+    private boolean isOpen;//открыта ли клетка
+    private boolean isMarked;//отмечена ли флагом
 
-    public Button getButton() {
-        return button;
-    }
-
-    public Cell(Button button,boolean isBomb) {
-        this.button = button;
-        this.isBomb = isBomb;
-        this.isOpen = false;
-        this.isFlag = false;
-    }
-
-    public void rightClick(){
-
-    }
-
-    public void leftClick(){
-
+    public Cell (int x, int y, int state){
+        this.x = x;
+        this.y = y;
+        this.state = state;
+        this.button = new Button();
+        this.isMarked = isMarked;
+        this.isOpen = isOpen;
     }
 }
