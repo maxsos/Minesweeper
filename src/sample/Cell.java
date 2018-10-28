@@ -1,4 +1,4 @@
-package resources;
+package sample;
 
 import javafx.scene.control.Button;
 

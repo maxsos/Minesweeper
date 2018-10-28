@@ -1,6 +1,6 @@
-package resources;
+package sample;
 
-import resources.Cell;
+import sample.Cell;
 
 public class Switcher extends Cell {
     public int getSwitched(){
