@@ -15,14 +15,17 @@ import java.util.ArrayList;
 public class JavafxSample extends Application {
     private static ArrayList<Cell> cells = new ArrayList<>();
     private static ArrayList<Button> buttons = new ArrayList<>();
+    private static final int tableSize = 16;
+    private static final  int buttonSize = 24;
+
+
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
 
-        int tableSize = 9;
-        int buttonSize = 24;
+
 
 
         for (int i = 0; i < tableSize * tableSize; i++) {
@@ -69,9 +72,22 @@ public class JavafxSample extends Application {
 
     public static void rigthClick(double x, double y) {
 
+        int numX = (int) (x / buttonSize) + 1;
+        int numY = (int) (y / buttonSize);
+        int number = numX + numY * (tableSize) - 1;
+
+        buttons.get(number);
+        System.out.println(number+ " ");
+
+
+
     }
 
     public static void leftClick(double x, double y) {
+        int numX = (int) (x / buttonSize) + 1;
+        int numY = (int) (y / buttonSize);
+        int number = numX + numY * (tableSize) - 1;
 
+        buttons.get(number);
     }
 }

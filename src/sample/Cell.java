@@ -18,4 +18,8 @@ public class Cell extends Button {
         this.isMarked = isMarked;
         this.isOpen = isOpen;
     }
+
+    public Cell(Button button, boolean b) {
+
+    }
 }
