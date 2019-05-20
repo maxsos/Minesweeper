@@ -1,9 +1,11 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -24,7 +26,7 @@ public class JavafxSample extends Application {
     private static ArrayList<Button> buttons = new ArrayList<>();
     private static final int tableSize = 16;
     private static final  int buttonSize = 24;
-    private static String res[] = {
+    private static String[] res = {
             "exposed", "number1", "number2", "number3", "number4", "number5", "number6", "number7",
             "number8","blank", "flag", "hitmine", "mine", "wrongmine"
     };
@@ -32,7 +34,7 @@ public class JavafxSample extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
 
 
         List<Integer> bombs = generate(20);
@@ -43,7 +45,7 @@ public class JavafxSample extends Application {
         }
 
         for(int k: bombs){
-         //   cells.get(k).setBomb(true);
+            cells.get(k).setBomb(true);
         }
         for (int i = 0; i < tableSize * tableSize; i++) {
             setPic(i, res[9]);
@@ -54,7 +56,7 @@ public class JavafxSample extends Application {
 
                 if(event.getButton().equals(MouseButton.SECONDARY)){
                     try {
-                        leftClick(event.getSceneX(), event.getSceneY());
+                        leftClick(event.getSceneX(), event.getSceneY(), bombs);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -81,7 +83,7 @@ public class JavafxSample extends Application {
         primaryStage.show();
     }
 
-    public static void setPic(int n, String res) {
+    private static void setPic(int n, String res) {
         File file = new File( "src/resources/" + res + ".png");
         try {
             cells.get(n).getButton()
@@ -94,7 +96,7 @@ public class JavafxSample extends Application {
 
     }
 
-    public static void recOpen(int num) {
+    private static void recOpen(int num) {
         if (!cells.get(num).isOpen() && !cells.get(num).isFlag())
         if (calcBombs(num) == 0) {
             cells.get(num).setOpen(true);
@@ -122,7 +124,7 @@ public class JavafxSample extends Application {
                         recOpen(num - tableSize - 1);
                         break;
                     default:
-                        if (num <= 8) {
+                        if (num <= tableSize) {
                             recOpen(num - 1);
                             recOpen(num + 1);
                             recOpen(num + tableSize - 1);
@@ -163,7 +165,7 @@ public class JavafxSample extends Application {
         }
     }
 
-    public static int calcBombs(int num) {
+    private static int calcBombs(int num) {
         int k = 0;
         switch (num) {
             case 0:
@@ -183,7 +185,7 @@ public class JavafxSample extends Application {
                         +cells.get(num - tableSize - 1).intBomb();
                 break;
             default:
-                if (num >= 1 && num <=8)
+                if (num >= 1 && num <= tableSize)
                     k+= cells.get(num - 1).intBomb() + cells.get(num + 1).intBomb()
                             + cells.get(num + tableSize - 1).intBomb() + cells.get(num + tableSize).intBomb()
                             + cells.get(num + tableSize + 1).intBomb();
@@ -212,7 +214,7 @@ public class JavafxSample extends Application {
         return k;
     }
 
-    public static void rigthClick(double x, double y) {
+    private static void rigthClick(double x, double y) {
 
         int numX = (int) (x / buttonSize) + 1;
         int numY = (int) (y / buttonSize);
@@ -222,8 +224,11 @@ public class JavafxSample extends Application {
         if(cells.get(number).isBomb()){
             setPic(number, res[12]);
             Group group1 = new Group();
+
+            group1.getChildren().add(new Label("Gameover"));
             Stage stage = new Stage();
-            Scene scene = new Scene(group1, 400, 400 );
+            Scene scene = new Scene(group1, 100, 100 );
+
             stage.setTitle("GameOver");
             stage.setScene(scene);
             stage.show();
@@ -235,7 +240,7 @@ public class JavafxSample extends Application {
     }
 
 
-    public static void leftClick(double x, double y) throws Exception {
+    private static void leftClick(double x, double y, List<Integer> bombs) {
 
         int numX = (int) (x / buttonSize) + 1;
         int numY = (int) (y / buttonSize);
@@ -250,5 +255,22 @@ public class JavafxSample extends Application {
                 setPic(number, res[10]);
                 cells.get(number).setFlag(true);
             }
+        boolean isVictory = true;
+        for(int el: bombs) {
+            if(!cells.get(el).isFlag() || !cells.get(el).isBomb())
+                isVictory = false;
+
+        }
+        if(isVictory){
+            Group group1 = new Group();
+
+            group1.getChildren().add(new Label("Victory"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(group1, 100, 100 );
+
+            stage.setTitle("Victory");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }
